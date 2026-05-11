@@ -41,12 +41,18 @@ class WebAppTests(unittest.TestCase):
         self.assertEqual("Вы успешно зарегистрированы!", message.text)
         self.assertIn("success", message.get_attribute("class"))
 
-    def test_empty_submission(self):
-        self.driver.get(self.file_url)
-        self.driver.find_element(By.ID, "submit-button").click()
-        message = self.driver.find_element(By.ID, "status-message")
-        self.assertEqual("Пожалуйста, заполните все поля.", message.text)
-        self.assertIn("error", message.get_attribute("class"))
+def test_empty_submission(self):
+    self.driver.get(self.file_url)
+    self.driver.find_element(By.ID, "submit-button").click()
+    WebDriverWait(self.driver, 10).until(
+        EC.text_to_be_present_in_element(
+            (By.ID, "status-message"),         
+            "Пожалуйста, заполните все поля."  
+        )
+    )
+    message = self.driver.find_element(By.ID, "status-message")
+    self.assertEqual("Пожалуйста, заполните все поля.", message.text)
+    self.assertIn("error", message.get_attribute("class"))
 
     def test_form_elements_exist(self):
         self.driver.get(self.file_url)
